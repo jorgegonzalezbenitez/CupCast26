@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Datos (se regeneran solos al arrancar)
+data/raw/*.csv
+data/processed/*.csv
+outputs/*.png
+
+# IDE
+.idea/
+.vscode/
+
+# Docker
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

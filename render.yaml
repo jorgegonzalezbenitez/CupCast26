@@ -1,0 +1,26 @@
+# render.yaml
+# ===========
+# Configuración de despliegue automático en Render.com.
+# Render detecta este fichero automáticamente al conectar el repo de GitHub.
+#
+# Pasos para desplegar:
+#   1. Sube el proyecto a GitHub
+#   2. Ve a render.com → New → Web Service
+#   3. Conecta el repositorio
+#   4. Render usa este fichero automáticamente
+#   5. Añade las variables de entorno en el dashboard de Render
+
+services:
+  - type: web
+    name: cupcast26
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free                          # tier gratuito de Render
+    healthCheckPath: /api/status
+    envVars:
+      - key: CUPCAST_API_KEY
+        sync: false                     # se define manualmente en Render dashboard
+      - key: N_SIMULATIONS
+        value: 50000
+      - key: REFRESH_HOURS
+        value: 6

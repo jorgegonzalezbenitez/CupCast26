@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>CupCast26 · Predictor del Mundial 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/static/style.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header__inner">
+    <div class="brand">
+      <span class="brand__ball">⚽</span>
+      <div class="brand__text">
+        <span class="brand__name">CupCast<em>26</em></span>
+        <span class="brand__sub">Predictor · Mundial 2026</span>
+      </div>
+    </div>
+    <nav class="header__nav">
+      <a href="#bracket">Cuadro</a>
+      <a href="#metodologia">Metodología</a>
+      <a href="#partidos">Partidos</a>
+      <a href="#simulacion">Simulación</a>
+      <a href="#fuerza">Fuerza</a>
+      <a href="#precision">Precisión</a>
+    </nav>
+    <div class="header__status">
+      <span class="pulse" id="statusDot"></span>
+      <span id="statusText">Cargando…</span>
+      <span class="header__update" id="lastUpdate"></span>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero__inner">
+    <div class="hero__eyebrow">Mundial FIFA 2026 · EE.UU. · Canadá · México</div>
+    <h1 class="hero__title">Donde los datos<br/><span class="hero__title--gold">predicen el fútbol</span></h1>
+    <p class="hero__sub">50 000 simulaciones del torneo. Un modelo construido sobre 150 años de historia internacional. Cada partido, cada ronda, cada probabilidad — actualizada en tiempo real.</p>
+    <div class="hero__stats">
+      <div class="hero__stat"><span class="hero__stat-n">49 000<span class="hero__stat-plus">+</span></span><span class="hero__stat-l">Partidos históricos</span></div>
+      <div class="hero__stat-div"></div>
+      <div class="hero__stat"><span class="hero__stat-n">50 000</span><span class="hero__stat-l">Simulaciones</span></div>
+      <div class="hero__stat-div"></div>
+      <div class="hero__stat"><span class="hero__stat-n">3</span><span class="hero__stat-l">Señales combinadas</span></div>
+      <div class="hero__stat-div"></div>
+      <div class="hero__stat"><span class="hero__stat-n" id="heroRound">—</span><span class="hero__stat-l">Ronda actual</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- BRACKET -->
+<section class="section" id="bracket">
+  <div class="section__inner">
+    <div class="section__head">
+      <h2 class="section__title">Cuadro Oficial del Mundial 2026</h2>
+      <p class="section__desc">Bracket real de la FIFA · el % en cada casilla es la probabilidad del modelo de que esa selección clasifique · se actualiza con cada resultado real</p>
+    </div>
+    <div class="bracket-scroll">
+      <div class="bracket-outer" id="bracketOuter">
+        <div class="bracket-loading">Generando cuadro…</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METODOLOGÍA -->
+<section class="section section--alt" id="metodologia">
+  <div class="section__inner">
+    <div class="section__head">
+      <h2 class="section__title">¿Cómo funciona el modelo?</h2>
+      <p class="section__desc">Tres fuentes de información combinadas, 50 000 escenarios posibles</p>
+    </div>
+    <div class="method-grid">
+      <div class="method-card">
+        <div class="method-card__icon">📊</div>
+        <div class="method-card__num">01</div>
+        <h3 class="method-card__title">Historial de 150 años</h3>
+        <p class="method-card__body">Se analizan más de 49 000 partidos internacionales disputados entre 1872 y 2026. Cada selección tiene un rating que sube al ganar y baja al perder, ajustado siempre por la dificultad del rival. Un partido del Mundial 2026 tiene hasta el doble de impacto que un amistoso de hace ocho años.</p>
+        <div class="method-card__tag">Peso en el modelo: 50%</div>
+      </div>
+      <div class="method-card">
+        <div class="method-card__icon">🏅</div>
+        <div class="method-card__num">02</div>
+        <h3 class="method-card__title">Ranking FIFA oficial</h3>
+        <p class="method-card__body">Se incorporan los puntos FIFA de junio de 2026 como referencia de nivel actual. Esto corrige situaciones donde el historial histórico no refleja el estado real de una selección. Ganar a una selección del top 10 aporta mucho más al modelo que ganar a una selección de bajo ranking.</p>
+        <div class="method-card__tag">Peso en el modelo: 30%</div>
+      </div>
+      <div class="method-card">
+        <div class="method-card__icon">🔁</div>
+        <div class="method-card__num">03</div>
+        <h3 class="method-card__title">Cara a cara entre rivales</h3>
+        <p class="method-card__body">Para cada cruce concreto se estudia todo el historial de enfrentamientos entre ambas selecciones. Los partidos recientes cuentan más que los antiguos: un partido de hace 4 años tiene la mitad de peso que uno de hoy. Si hay menos de 3 encuentros históricos, esta señal se omite.</p>
+        <div class="method-card__tag">Peso en el modelo: 20%</div>
+      </div>
+      <div class="method-card method-card--wide">
+        <div class="method-card__icon">🎲</div>
+        <div class="method-card__num">04</div>
+        <h3 class="method-card__title">50 000 mundiales simulados</h3>
+        <p class="method-card__body">Con las probabilidades de cada partido calculadas, el torneo completo se simula <strong>50 000 veces</strong>. En cada simulación, el resultado de cada partido se decide de forma aleatoria respetando esas probabilidades — como tirar un dado cargado. Al sumar todas las simulaciones obtenemos algo mucho más honesto que una predicción única: una distribución de posibilidades. No "España gana el Mundial" sino "España llega a la final en el 24% de los escenarios simulados". Esto captura la incertidumbre real del fútbol.</p>
+        <div class="method-card__tag">50 000 iteraciones · bracket completo de 5 rondas</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTIDOS -->
+<section class="section" id="partidos">
+  <div class="section__inner">
+    <div class="section__head">
+      <h2 class="section__title">¿Quién tiene más probabilidades de ganar?</h2>
+      <p class="section__desc">Predicción partido a partido · haz clic en "ver historial" para consultar los últimos enfrentamientos entre los dos equipos</p>
+    </div>
+    <div class="matches-grid" id="matchesGrid"></div>
+  </div>
+</section>
+
+<!-- SIMULACIÓN MONTECARLO -->
+<section class="section section--alt" id="simulacion">
+  <div class="section__inner">
+    <div class="section__head">
+      <h2 class="section__title">¿Hasta dónde puede llegar cada selección?</h2>
+      <p class="section__desc">Resultado de 50 000 simulaciones del torneo completo · cada celda muestra en qué porcentaje de escenarios esa selección llegó a esa ronda</p>
+    </div>
+    <div class="heatmap-box">
+      <div class="heatmap-scroll">
+        <table class="heatmap" id="heatmapTable"></table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FUERZA ELO -->
+<section class="section" id="fuerza">
+  <div class="section__inner">
+    <div class="section__head">
+      <h2 class="section__title">¿Quién llega más fuerte al torneo?</h2>
+      <p class="section__desc">Índice de fuerza calculado sobre 150 años de fútbol internacional · cuanto más alto, mayor es el nivel histórico acumulado de esa selección</p>
+    </div>
+    <div class="elo-chart-box">
+      <canvas id="eloChart"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- PRECISIÓN -->
+<section class="section section--alt" id="precision">
+  <div class="section__inner">
+    <div class="section__head">
+      <h2 class="section__title">¿Está acertando el modelo?</h2>
+      <p class="section__desc">Comparación entre lo que predijo el modelo y lo que ocurrió realmente · se actualiza automáticamente con cada resultado</p>
+    </div>
+    <div class="accuracy-wrap">
+      <div class="accuracy-dial">
+        <svg class="dial-svg" viewBox="0 0 200 120">
+          <path d="M20,100 A80,80 0 0,1 180,100" fill="none" stroke="#1e3a5f" stroke-width="16" stroke-linecap="round"/>
+          <path id="dialFill" d="M20,100 A80,80 0 0,1 180,100" fill="none" stroke="#f0b429" stroke-width="16" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="251" style="transition:stroke-dashoffset 1s ease"/>
+        </svg>
+        <div class="dial-center">
+          <span class="dial-pct" id="dialPct">—</span>
+          <span class="dial-label">aciertos</span>
+          <span class="dial-sub" id="dialSub">— / — partidos</span>
+        </div>
+      </div>
+      <div class="accuracy-table-wrap">
+        <table class="accuracy-table" id="accuracyTable"></table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand">⚽ CupCast<em>26</em></div>
+    <p class="footer__copy">Datos: <a href="https://github.com/martj42/international_results" target="_blank">martj42 · international_results</a> · Modelo: Elo histórico + Ranking FIFA 2026 + Montecarlo</p>
+    <a class="footer__api" href="/api/status" target="_blank">API status ↗</a>
+  </div>
+</footer>
+
+<!-- MODAL H2H -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal__head">
+      <h3 class="modal__title" id="modalTitle">Historial</h3>
+      <button class="modal__close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal__body" id="modalBody"></div>
+  </div>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
