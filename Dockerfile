@@ -28,9 +28,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY src/       ./src/
 COPY api/       ./api/
 COPY web/       ./web/
-COPY data/      ./data/
 
-# ── Carpeta de outputs (gráficos) ─────────────────────────────────────────────
+# ── Carpetas de datos y outputs (se rellenan en runtime, no van en el repo) ───
 RUN mkdir -p /app/outputs /app/data/raw /app/data/processed
 
 # ── Puerto expuesto ───────────────────────────────────────────────────────────
